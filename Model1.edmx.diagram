@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4367dd1152c84f58a486900b9f9fe0bc" Name="Diagram1">
+        <EntityTypeShape EntityType="UserDbModel.categories" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="UserDbModel.projects" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UserDbModel.projectTask" Width="1.5" PointX="5.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UserDbModel.projectUsers" Width="1.5" PointX="8.25" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="UserDbModel.roles" Width="1.5" PointX="0.75" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="UserDbModel.userLog" Width="1.5" PointX="5.25" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="UserDbModel.users" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
+        <AssociationConnector Association="UserDbModel.FK_projects_categories" ManuallyRouted="false" />
+        <AssociationConnector Association="UserDbModel.FK_projectTask_projects" ManuallyRouted="false" />
+        <AssociationConnector Association="UserDbModel.FK_projectUsers_projects" ManuallyRouted="false" />
+        <AssociationConnector Association="UserDbModel.FK_projectTask_users" ManuallyRouted="false" />
+        <AssociationConnector Association="UserDbModel.FK_projectUsers_users" ManuallyRouted="false" />
+        <AssociationConnector Association="UserDbModel.FK_users_roles" ManuallyRouted="false" />
+        <AssociationConnector Association="UserDbModel.FK_userLog_users" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

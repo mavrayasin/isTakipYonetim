@@ -1,0 +1,164 @@
+﻿@model isTakipYonetim.ViewModel.projectsDetail
+@{
+    ViewBag.Title = "Projects";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+
+<div class="row m-t-50">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive">
+            <div class="row m-t-50">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 col-xs-12 text-left">
+                    <h4 class="m-t-0 header-title"><b>Projects</b> </h4>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 col-xs-12 text-right">
+                    <button class="btn btn-primary btn-rounded w-md waves-effect waves-light m-b-5 btn-sm" data-placement="right" title="Add New Project"
+                            style="font-size:15px" id="btnNewProject" onclick="btnNewProject()" data-toggle="modal">
+                        Add New Project
+                    </button>
+                </div>
+            </div>
+            <p class="text-muted font-13 m-b-30">
+
+            </p>
+            <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <thead>
+                    <tr>
+                        <th>Icon</th>
+                        <th>Project Name</th>
+                        <th>Category</th>
+                        <th>Team</th>
+                        <th>Progress</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @{ int syc = 0;}
+
+                    @foreach (var item in Model.projectsList)
+                    {
+                        <tr>
+                            @{int s = syc + 1;}
+                            <td>
+                                
+                                    @{
+                                     
+                                        string projeName = item.name;
+                                        var dosyaAciklama = "File" + projeName + ".jpg";
+
+                                        if (File.Exists(Server.MapPath("/FileUpload/" + dosyaAciklama)))
+                                        {
+                                            <img src="~/FileUpload/@projeName" class="rounded-circle img-thumbnail">
+                                        }
+                                        else
+                                        {
+                                            <img src="~/assets/images/favicon.ico" class="rounded-circle img-thumbnail">
+                                        }
+                                    }
+
+
+                            </td>
+                            <td>@item.name </td>
+                            <td>@item.categories.categoryName</td>
+                            <td>
+                                @foreach (var item_ in Model.projectUsersList)
+                                {
+                                    if (item.ID == item_.projectID)
+                                    {
+                                <div>@item_.users.username</div>
+                                    }
+                                   <div>   </div>
+                                }
+                            </td>
+                            <td>
+                                <div class="progress progress-md">
+                                    <div data-toggle="tooltip" data-placement="left" title="@item.progress%" class="progress-bar bg-success progress-bar-striped" role="progressbar" aria-valuenow="@item.progress" aria-valuemin="0" aria-valuemax="100" style="width: @item.progress%;">
+                                        <span class="sr-only">@item.progress% Complete</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+
+                                <button class="btn btn-icon waves-effect waves-light btn-brown btn-sm ion ion-md-create" data-placement="left" title="Aktif Yap" style="font-size:15px"> </button>
+                                <button class="btn btn-icon waves-effect waves-light btn-primary btn-sm " data-placement="left" title="Görüntüle" style="font-size:10px">View</button>
+                                <button class="btn btn-icon waves-effect waves-light btn-orange btn-sm ion ion-ios-settings" data-placement="left" title="Ayarlar" style="font-size:15px"> </button>
+                                <button class="btn btn-icon waves-effect waves-light btn-danger btn-sm ion ion-ios-trash" data-placement="left" title="Sil" style="font-size:15px"> </button>
+
+                               
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-lg" id="addNewProjectModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title mt-0">New Project</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="addNewProjectModalBody">
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<script>
+    $(document).ready(function () {
+        $('#datatable').dataTable();
+        $('#datatable-keytable').DataTable({ keys: true });
+        $('#datatable-responsive').DataTable();
+        $('#datatable-colvid').DataTable({
+            "dom": 'C<"clear">lfrtip',
+            "colVis": {
+                "buttonText": "Change columns"
+            }
+        });
+        $('#datatable-scroller').DataTable({
+            ajax: "../plugins/datatables/json/scroller-demo.json",
+            deferRender: true,
+            scrollY: 380,
+            scrollCollapse: true,
+            scroller: true
+        });
+        var table = $('#datatable-fixed-header').DataTable({ fixedHeader: true });
+        var table = $('#datatable-fixed-col').DataTable({
+            scrollY: "300px",
+            scrollX: true,
+            scrollCollapse: true,
+            paging: false,
+            fixedColumns: {
+                leftColumns: 1,
+                rightColumns: 1
+            }
+        });
+    });
+    TableManageButtons.init();
+ 
+
+</script>
+<script>
+
+    function btnNewProject() {
+
+        $.ajax({
+            type: "GET",
+            url: "/Global/AddNewProject",
+            success: function (data) {
+                $("#addNewProjectModalBody").html(data);
+                $("#addNewProjectModal").modal('show');
+            },
+            error: function () {
+                error("Hata !", "İşlem Sırasında Hata Oluştu !");
+            }
+        });
+    }
+</script>

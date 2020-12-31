@@ -1,0 +1,97 @@
+﻿@model isTakipYonetim.ViewModel.userProjectDetail
+@{
+                /**/
+
+                ViewBag.Title = "TeamMembers";
+                Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<br />
+<br />
+<div class="row m-t-50">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive">
+            <h4 class="m-t-0 header-title"><b>Team Members</b></h4>
+            <p class="text-muted font-13 m-b-30">
+
+            </p>
+            <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Team Role</th>
+                        <th>Project</th>
+                        <th>Last Online</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @{ int syc = 0;}
+
+                    @foreach (var item in Model.projectUsersList)
+                    {
+                        <tr>
+                            @{int s = syc + 1;}
+                            <td>@item.users.firstName @item.users.lastName<br /> <p class="m-0 text-muted font-13 text-success"><small> @item.users.username</small></p></td>
+                            <td>@item.users.roles.name </td>
+                            <td>
+                                @item.projects.name
+                                <p></p>
+
+                            </td>
+                            <td>
+
+                                @foreach (var i in Model.userLogList)
+                                {
+                                    if (item.userID == i.userID)
+                                    {
+                                        @i.systemRecordTime
+                                    }
+                                }
+                            </td>
+                            <td>
+                                <button class="btn btn-icon waves-effect waves-light btn-brown btn-sm" data-placement="left" title="Görüntüle" style="font-size:10px">View </button>
+                                <button class="btn btn-icon waves-effect waves-light btn-primary btn-sm " data-placement="left" title="Kullanıcı Bilgi" style="font-size:10px">User Log</button>
+                                <button class="btn btn-icon waves-effect waves-light btn-orange btn-sm ion ion-ios-settings" data-placement="left" title="Ayarlar" style="font-size:15px"> </button>
+                                <button class="btn btn-icon waves-effect waves-light btn-danger btn-sm ion ion-ios-trash" data-placement="left" title="Sil" style="font-size:15px"> </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#datatable').dataTable();
+        $('#datatable-keytable').DataTable({ keys: true });
+        $('#datatable-responsive').DataTable();
+        $('#datatable-colvid').DataTable({
+            "dom": 'C<"clear">lfrtip',
+            "colVis": {
+                "buttonText": "Change columns"
+            }
+        });
+        $('#datatable-scroller').DataTable({
+            ajax: "../plugins/datatables/json/scroller-demo.json",
+            deferRender: true,
+            scrollY: 380,
+            scrollCollapse: true,
+            scroller: true
+        });
+        var table = $('#datatable-fixed-header').DataTable({ fixedHeader: true });
+        var table = $('#datatable-fixed-col').DataTable({
+            scrollY: "300px",
+            scrollX: true,
+            scrollCollapse: true,
+            paging: false,
+            fixedColumns: {
+                leftColumns: 1,
+                rightColumns: 1
+            }
+        });
+    });
+    TableManageButtons.init();</script>
